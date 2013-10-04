@@ -11,7 +11,7 @@ using MvcWebRole.Controllers;
 namespace MvcWebRole.Tests.Controllers
 {
     [TestClass]
-    public class ValuesControllerTest
+    public class RelayControllerTest
     {
         [TestMethod]
         public void Get()
@@ -20,9 +20,9 @@ namespace MvcWebRole.Tests.Controllers
             var path = "dummy_path";
             var expected = "get: " + path;
 
-            string result = controller.Get(path);
+            var responseMsg = controller.GetRelay(path).Result;
 
-            Assert.AreEqual(expected, result);
+            Assert.AreEqual(expected, responseMsg.Content);
         }
     }
 }
