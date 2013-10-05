@@ -11,17 +11,19 @@ namespace MvcWebRole.Controllers
 {
     public class RelayController : ApiController
     {
-        private static readonly HttpClient Client = new HttpClient()
-        {
-            Timeout = TimeSpan.FromMinutes(20)
-        };
-
         private static readonly Uri RelayServiceUri = new Uri("http://www.sunet.se");
+        private readonly IHttpClient _client;
+
+        public RelayController()
+        {
+            var httpClient = new HttpClient { Timeout = TimeSpan.FromMinutes(20) };
+            _client = new HttpClientWrapper(httpClient);
+        }
 
         public async Task<HttpResponseMessage> GetRelay(string path)
         {
             var uri = new Uri(RelayServiceUri, (path == "<root>" ? "" : path));
-            using (var serviceResponse = await Client.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead))
+            using (var serviceResponse = await _client.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead))
             {
                 return CreateResponse(serviceResponse);
             }
