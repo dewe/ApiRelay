@@ -157,6 +157,8 @@
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\HttpClientWrapper.cs" />
+    <Compile Include="Controllers\IHttpClient.cs" />
     <Compile Include="Controllers\RelayController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

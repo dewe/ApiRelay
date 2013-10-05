@@ -20,6 +20,11 @@ namespace MvcWebRole.Controllers
             _client = new HttpClientWrapper(httpClient);
         }
 
+        public RelayController(IHttpClient httpClient)
+        {
+            _client = httpClient;
+        }
+
         public async Task<HttpResponseMessage> GetRelay(string path)
         {
             var uri = new Uri(RelayServiceUri, (path == "<root>" ? "" : path));

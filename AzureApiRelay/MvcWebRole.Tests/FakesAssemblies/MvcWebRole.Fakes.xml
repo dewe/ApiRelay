@@ -1,0 +1,371 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MvcWebRole.Fakes</name>
+    </assembly>
+    <members>
+        <member name="T:MvcWebRole.Controllers.Fakes.ShimHttpClientWrapper">
+            <summary>Shim type of MvcWebRole.Controllers.HttpClientWrapper</summary>
+        </member>
+        <member name="M:MvcWebRole.Controllers.Fakes.ShimHttpClientWrapper.#ctor">
+            <summary>Initializes a new shim instance</summary>
+        </member>
+        <member name="M:MvcWebRole.Controllers.Fakes.ShimHttpClientWrapper.#ctor(MvcWebRole.Controllers.HttpClientWrapper)">
+            <summary>Initializes a new shim for the given instance</summary>
+        </member>
+        <member name="M:MvcWebRole.Controllers.Fakes.ShimHttpClientWrapper.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:MvcWebRole.Controllers.Fakes.ShimHttpClientWrapper.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:MvcWebRole.Controllers.Fakes.ShimHttpClientWrapper.Bind(MvcWebRole.Controllers.IHttpClient)">
+            <summary>Binds the members of the interface to the shim.</summary>
+        </member>
+        <member name="P:MvcWebRole.Controllers.Fakes.ShimHttpClientWrapper.Behavior">
+            <summary>Assigns the behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:MvcWebRole.Controllers.Fakes.ShimHttpClientWrapper.ConstructorHttpClient">
+            <summary>Sets the shim of HttpClientWrapper.HttpClientWrapper(HttpClient client)</summary>
+        </member>
+        <member name="P:MvcWebRole.Controllers.Fakes.ShimHttpClientWrapper.GetAsyncUriHttpCompletionOption">
+            <summary>Sets the shim of HttpClientWrapper.GetAsync(Uri requestUri, HttpCompletionOption completionOption)</summary>
+        </member>
+        <member name="T:MvcWebRole.Controllers.Fakes.ShimHttpClientWrapper.AllInstances">
+            <summary>Define shims for all instances members</summary>
+        </member>
+        <member name="P:MvcWebRole.Controllers.Fakes.ShimHttpClientWrapper.AllInstances.GetAsyncUriHttpCompletionOption">
+            <summary>Sets the shim of HttpClientWrapper.GetAsync(Uri requestUri, HttpCompletionOption completionOption)</summary>
+        </member>
+        <member name="T:MvcWebRole.Controllers.Fakes.ShimRelayController">
+            <summary>Shim type of MvcWebRole.Controllers.RelayController</summary>
+        </member>
+        <member name="M:MvcWebRole.Controllers.Fakes.ShimRelayController.#ctor">
+            <summary>Initializes a new shim instance</summary>
+        </member>
+        <member name="M:MvcWebRole.Controllers.Fakes.ShimRelayController.#ctor(MvcWebRole.Controllers.RelayController)">
+            <summary>Initializes a new shim for the given instance</summary>
+        </member>
+        <member name="M:MvcWebRole.Controllers.Fakes.ShimRelayController.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:MvcWebRole.Controllers.Fakes.ShimRelayController.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:MvcWebRole.Controllers.Fakes.ShimRelayController.Bind(System.Web.Http.Controllers.IHttpController)">
+            <summary>Binds the members of the interface to the shim.</summary>
+        </member>
+        <member name="M:MvcWebRole.Controllers.Fakes.ShimRelayController.Bind(System.IDisposable)">
+            <summary>Binds the members of the interface to the shim.</summary>
+        </member>
+        <member name="P:MvcWebRole.Controllers.Fakes.ShimRelayController.Behavior">
+            <summary>Assigns the behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:MvcWebRole.Controllers.Fakes.ShimRelayController.Constructor">
+            <summary>Sets the shim of RelayController.RelayController()</summary>
+        </member>
+        <member name="P:MvcWebRole.Controllers.Fakes.ShimRelayController.ConstructorIHttpClient">
+            <summary>Sets the shim of RelayController.RelayController(IHttpClient httpClient)</summary>
+        </member>
+        <member name="P:MvcWebRole.Controllers.Fakes.ShimRelayController.CreateResponseHttpResponseMessage">
+            <summary>Sets the shim of RelayController.CreateResponse(HttpResponseMessage serviceResponse)</summary>
+        </member>
+        <member name="P:MvcWebRole.Controllers.Fakes.ShimRelayController.GetRelayString">
+            <summary>Sets the shim of RelayController.GetRelay(String path)</summary>
+        </member>
+        <member name="P:MvcWebRole.Controllers.Fakes.ShimRelayController.StaticConstructor">
+            <summary>Sets the shim of RelayController.RelayController()</summary>
+        </member>
+        <member name="T:MvcWebRole.Controllers.Fakes.ShimRelayController.AllInstances">
+            <summary>Define shims for all instances members</summary>
+        </member>
+        <member name="P:MvcWebRole.Controllers.Fakes.ShimRelayController.AllInstances.CreateResponseHttpResponseMessage">
+            <summary>Sets the shim of RelayController.CreateResponse(HttpResponseMessage serviceResponse)</summary>
+        </member>
+        <member name="P:MvcWebRole.Controllers.Fakes.ShimRelayController.AllInstances.GetRelayString">
+            <summary>Sets the shim of RelayController.GetRelay(String path)</summary>
+        </member>
+        <member name="T:MvcWebRole.Controllers.Fakes.StubHttpClientWrapper">
+            <summary>Stub type of MvcWebRole.Controllers.HttpClientWrapper</summary>
+        </member>
+        <member name="M:MvcWebRole.Controllers.Fakes.StubHttpClientWrapper.#ctor(System.Net.Http.HttpClient)">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:MvcWebRole.Controllers.Fakes.StubHttpClientWrapper.InitializeStub">
+            <summary>Initializes a new instance of type StubHttpClientWrapper</summary>
+        </member>
+        <member name="P:MvcWebRole.Controllers.Fakes.StubHttpClientWrapper.CallBase">
+            <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
+        </member>
+        <member name="P:MvcWebRole.Controllers.Fakes.StubHttpClientWrapper.InstanceBehavior">
+            <summary>Gets or sets the instance behavior.</summary>
+        </member>
+        <member name="P:MvcWebRole.Controllers.Fakes.StubHttpClientWrapper.InstanceObserver">
+            <summary>Gets or sets the instance observer.</summary>
+        </member>
+        <member name="T:MvcWebRole.Controllers.Fakes.StubIHttpClient">
+            <summary>Stub type of MvcWebRole.Controllers.IHttpClient</summary>
+        </member>
+        <member name="M:MvcWebRole.Controllers.Fakes.StubIHttpClient.#ctor">
+            <summary>Initializes a new instance of type StubIHttpClient</summary>
+        </member>
+        <member name="F:MvcWebRole.Controllers.Fakes.StubIHttpClient.GetAsyncUriHttpCompletionOption">
+            <summary>Sets the stub of IHttpClient.GetAsync(Uri requestUri, HttpCompletionOption completionOption)</summary>
+        </member>
+        <member name="M:MvcWebRole.Controllers.Fakes.StubIHttpClient.mwr::MvcWebRole#Controllers#IHttpClient#GetAsync(System.Uri,System.Net.Http.HttpCompletionOption)">
+            <summary>Sets the stub of IHttpClient.GetAsync(Uri requestUri, HttpCompletionOption completionOption)</summary>
+        </member>
+        <member name="T:MvcWebRole.Controllers.Fakes.StubRelayController">
+            <summary>Stub type of MvcWebRole.Controllers.RelayController</summary>
+        </member>
+        <member name="M:MvcWebRole.Controllers.Fakes.StubRelayController.#ctor">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:MvcWebRole.Controllers.Fakes.StubRelayController.#ctor(MvcWebRole.Controllers.IHttpClient)">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:MvcWebRole.Controllers.Fakes.StubRelayController.Dispose(System.Boolean)">
+            <summary>Sets the stub of ApiController.Dispose(Boolean disposing)</summary>
+        </member>
+        <member name="F:MvcWebRole.Controllers.Fakes.StubRelayController.DisposeBoolean">
+            <summary>Sets the stub of ApiController.Dispose(Boolean disposing)</summary>
+        </member>
+        <member name="M:MvcWebRole.Controllers.Fakes.StubRelayController.ExecuteAsync(System.Web.Http.Controllers.HttpControllerContext,System.Threading.CancellationToken)">
+            <summary>Sets the stub of ApiController.ExecuteAsync(HttpControllerContext controllerContext, CancellationToken cancellationToken)</summary>
+        </member>
+        <member name="F:MvcWebRole.Controllers.Fakes.StubRelayController.ExecuteAsyncHttpControllerContextCancellationToken">
+            <summary>Sets the stub of ApiController.ExecuteAsync(HttpControllerContext controllerContext, CancellationToken cancellationToken)</summary>
+        </member>
+        <member name="M:MvcWebRole.Controllers.Fakes.StubRelayController.Initialize(System.Web.Http.Controllers.HttpControllerContext)">
+            <summary>Sets the stub of ApiController.Initialize(HttpControllerContext controllerContext)</summary>
+        </member>
+        <member name="F:MvcWebRole.Controllers.Fakes.StubRelayController.InitializeHttpControllerContext">
+            <summary>Sets the stub of ApiController.Initialize(HttpControllerContext controllerContext)</summary>
+        </member>
+        <member name="M:MvcWebRole.Controllers.Fakes.StubRelayController.InitializeStub">
+            <summary>Initializes a new instance of type StubRelayController</summary>
+        </member>
+        <member name="P:MvcWebRole.Controllers.Fakes.StubRelayController.CallBase">
+            <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
+        </member>
+        <member name="P:MvcWebRole.Controllers.Fakes.StubRelayController.InstanceBehavior">
+            <summary>Gets or sets the instance behavior.</summary>
+        </member>
+        <member name="P:MvcWebRole.Controllers.Fakes.StubRelayController.InstanceObserver">
+            <summary>Gets or sets the instance observer.</summary>
+        </member>
+        <member name="T:MvcWebRole.Fakes.ShimFilterConfig">
+            <summary>Shim type of MvcWebRole.FilterConfig</summary>
+        </member>
+        <member name="M:MvcWebRole.Fakes.ShimFilterConfig.#ctor">
+            <summary>Initializes a new shim instance</summary>
+        </member>
+        <member name="M:MvcWebRole.Fakes.ShimFilterConfig.#ctor(MvcWebRole.FilterConfig)">
+            <summary>Initializes a new shim for the given instance</summary>
+        </member>
+        <member name="M:MvcWebRole.Fakes.ShimFilterConfig.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:MvcWebRole.Fakes.ShimFilterConfig.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:MvcWebRole.Fakes.ShimFilterConfig.Behavior">
+            <summary>Assigns the behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:MvcWebRole.Fakes.ShimFilterConfig.Constructor">
+            <summary>Sets the shim of FilterConfig.FilterConfig()</summary>
+        </member>
+        <member name="P:MvcWebRole.Fakes.ShimFilterConfig.RegisterGlobalFiltersGlobalFilterCollection">
+            <summary>Sets the shim of FilterConfig.RegisterGlobalFilters(GlobalFilterCollection filters)</summary>
+        </member>
+        <member name="T:MvcWebRole.Fakes.ShimFilterConfig.AllInstances">
+            <summary>Define shims for all instances members</summary>
+        </member>
+        <member name="T:MvcWebRole.Fakes.ShimWebApiApplication">
+            <summary>Shim type of MvcWebRole.WebApiApplication</summary>
+        </member>
+        <member name="M:MvcWebRole.Fakes.ShimWebApiApplication.#ctor">
+            <summary>Initializes a new shim instance</summary>
+        </member>
+        <member name="M:MvcWebRole.Fakes.ShimWebApiApplication.#ctor(MvcWebRole.WebApiApplication)">
+            <summary>Initializes a new shim for the given instance</summary>
+        </member>
+        <member name="M:MvcWebRole.Fakes.ShimWebApiApplication.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:MvcWebRole.Fakes.ShimWebApiApplication.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:MvcWebRole.Fakes.ShimWebApiApplication.Bind(System.ComponentModel.IComponent)">
+            <summary>Binds the members of the interface to the shim.</summary>
+        </member>
+        <member name="M:MvcWebRole.Fakes.ShimWebApiApplication.Bind(System.Web.IHttpAsyncHandler)">
+            <summary>Binds the members of the interface to the shim.</summary>
+        </member>
+        <member name="M:MvcWebRole.Fakes.ShimWebApiApplication.Bind(System.Web.IHttpHandler)">
+            <summary>Binds the members of the interface to the shim.</summary>
+        </member>
+        <member name="M:MvcWebRole.Fakes.ShimWebApiApplication.Bind(System.IDisposable)">
+            <summary>Binds the members of the interface to the shim.</summary>
+        </member>
+        <member name="P:MvcWebRole.Fakes.ShimWebApiApplication.Application_Start">
+            <summary>Sets the shim of WebApiApplication.Application_Start()</summary>
+        </member>
+        <member name="P:MvcWebRole.Fakes.ShimWebApiApplication.Behavior">
+            <summary>Assigns the behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:MvcWebRole.Fakes.ShimWebApiApplication.Constructor">
+            <summary>Sets the shim of WebApiApplication.WebApiApplication()</summary>
+        </member>
+        <member name="T:MvcWebRole.Fakes.ShimWebApiApplication.AllInstances">
+            <summary>Define shims for all instances members</summary>
+        </member>
+        <member name="P:MvcWebRole.Fakes.ShimWebApiApplication.AllInstances.Application_Start">
+            <summary>Sets the shim of WebApiApplication.Application_Start()</summary>
+        </member>
+        <member name="T:MvcWebRole.Fakes.ShimWebApiConfig">
+            <summary>Shim type of MvcWebRole.WebApiConfig</summary>
+        </member>
+        <member name="M:MvcWebRole.Fakes.ShimWebApiConfig.#ctor">
+            <summary>Initializes a new shim instance</summary>
+        </member>
+        <member name="M:MvcWebRole.Fakes.ShimWebApiConfig.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:MvcWebRole.Fakes.ShimWebApiConfig.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:MvcWebRole.Fakes.ShimWebApiConfig.Behavior">
+            <summary>Assigns the behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:MvcWebRole.Fakes.ShimWebApiConfig.RegisterHttpConfiguration">
+            <summary>Sets the shim of WebApiConfig.Register(HttpConfiguration config)</summary>
+        </member>
+        <member name="T:MvcWebRole.Fakes.ShimWebRole">
+            <summary>Shim type of MvcWebRole.WebRole</summary>
+        </member>
+        <member name="M:MvcWebRole.Fakes.ShimWebRole.#ctor">
+            <summary>Initializes a new shim instance</summary>
+        </member>
+        <member name="M:MvcWebRole.Fakes.ShimWebRole.#ctor(MvcWebRole.WebRole)">
+            <summary>Initializes a new shim for the given instance</summary>
+        </member>
+        <member name="M:MvcWebRole.Fakes.ShimWebRole.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:MvcWebRole.Fakes.ShimWebRole.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:MvcWebRole.Fakes.ShimWebRole.Behavior">
+            <summary>Assigns the behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:MvcWebRole.Fakes.ShimWebRole.Constructor">
+            <summary>Sets the shim of WebRole.WebRole()</summary>
+        </member>
+        <member name="P:MvcWebRole.Fakes.ShimWebRole.OnStart">
+            <summary>Sets the shim of WebRole.OnStart()</summary>
+        </member>
+        <member name="T:MvcWebRole.Fakes.ShimWebRole.AllInstances">
+            <summary>Define shims for all instances members</summary>
+        </member>
+        <member name="P:MvcWebRole.Fakes.ShimWebRole.AllInstances.OnStart">
+            <summary>Sets the shim of WebRole.OnStart()</summary>
+        </member>
+        <member name="T:MvcWebRole.Fakes.StubFilterConfig">
+            <summary>Stub type of MvcWebRole.FilterConfig</summary>
+        </member>
+        <member name="M:MvcWebRole.Fakes.StubFilterConfig.#ctor">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:MvcWebRole.Fakes.StubFilterConfig.InitializeStub">
+            <summary>Initializes a new instance of type StubFilterConfig</summary>
+        </member>
+        <member name="P:MvcWebRole.Fakes.StubFilterConfig.CallBase">
+            <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
+        </member>
+        <member name="P:MvcWebRole.Fakes.StubFilterConfig.InstanceBehavior">
+            <summary>Gets or sets the instance behavior.</summary>
+        </member>
+        <member name="P:MvcWebRole.Fakes.StubFilterConfig.InstanceObserver">
+            <summary>Gets or sets the instance observer.</summary>
+        </member>
+        <member name="T:MvcWebRole.Fakes.StubWebApiApplication">
+            <summary>Stub type of MvcWebRole.WebApiApplication</summary>
+        </member>
+        <member name="M:MvcWebRole.Fakes.StubWebApiApplication.#ctor">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:MvcWebRole.Fakes.StubWebApiApplication.Dispose">
+            <summary>Sets the stub of HttpApplication.Dispose()</summary>
+        </member>
+        <member name="F:MvcWebRole.Fakes.StubWebApiApplication.Dispose01">
+            <summary>Sets the stub of HttpApplication.Dispose()</summary>
+        </member>
+        <member name="M:MvcWebRole.Fakes.StubWebApiApplication.GetOutputCacheProviderName(System.Web.HttpContext)">
+            <summary>Sets the stub of HttpApplication.GetOutputCacheProviderName(HttpContext context)</summary>
+        </member>
+        <member name="F:MvcWebRole.Fakes.StubWebApiApplication.GetOutputCacheProviderNameHttpContext">
+            <summary>Sets the stub of HttpApplication.GetOutputCacheProviderName(HttpContext context)</summary>
+        </member>
+        <member name="M:MvcWebRole.Fakes.StubWebApiApplication.GetVaryByCustomString(System.Web.HttpContext,System.String)">
+            <summary>Sets the stub of HttpApplication.GetVaryByCustomString(HttpContext context, String custom)</summary>
+        </member>
+        <member name="F:MvcWebRole.Fakes.StubWebApiApplication.GetVaryByCustomStringHttpContextString">
+            <summary>Sets the stub of HttpApplication.GetVaryByCustomString(HttpContext context, String custom)</summary>
+        </member>
+        <member name="M:MvcWebRole.Fakes.StubWebApiApplication.Init">
+            <summary>Sets the stub of HttpApplication.Init()</summary>
+        </member>
+        <member name="F:MvcWebRole.Fakes.StubWebApiApplication.Init01">
+            <summary>Sets the stub of HttpApplication.Init()</summary>
+        </member>
+        <member name="M:MvcWebRole.Fakes.StubWebApiApplication.InitializeStub">
+            <summary>Initializes a new instance of type StubWebApiApplication</summary>
+        </member>
+        <member name="P:MvcWebRole.Fakes.StubWebApiApplication.CallBase">
+            <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
+        </member>
+        <member name="P:MvcWebRole.Fakes.StubWebApiApplication.InstanceBehavior">
+            <summary>Gets or sets the instance behavior.</summary>
+        </member>
+        <member name="P:MvcWebRole.Fakes.StubWebApiApplication.InstanceObserver">
+            <summary>Gets or sets the instance observer.</summary>
+        </member>
+        <member name="T:MvcWebRole.Fakes.StubWebRole">
+            <summary>Stub type of MvcWebRole.WebRole</summary>
+        </member>
+        <member name="M:MvcWebRole.Fakes.StubWebRole.#ctor">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:MvcWebRole.Fakes.StubWebRole.InitializeStub">
+            <summary>Initializes a new instance of type StubWebRole</summary>
+        </member>
+        <member name="M:MvcWebRole.Fakes.StubWebRole.OnStart">
+            <summary>Sets the stub of WebRole.OnStart()</summary>
+        </member>
+        <member name="F:MvcWebRole.Fakes.StubWebRole.OnStart01">
+            <summary>Sets the stub of WebRole.OnStart()</summary>
+        </member>
+        <member name="M:MvcWebRole.Fakes.StubWebRole.OnStop">
+            <summary>Sets the stub of RoleEntryPoint.OnStop()</summary>
+        </member>
+        <member name="F:MvcWebRole.Fakes.StubWebRole.OnStop01">
+            <summary>Sets the stub of RoleEntryPoint.OnStop()</summary>
+        </member>
+        <member name="M:MvcWebRole.Fakes.StubWebRole.Run">
+            <summary>Sets the stub of RoleEntryPoint.Run()</summary>
+        </member>
+        <member name="F:MvcWebRole.Fakes.StubWebRole.Run01">
+            <summary>Sets the stub of RoleEntryPoint.Run()</summary>
+        </member>
+        <member name="P:MvcWebRole.Fakes.StubWebRole.CallBase">
+            <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
+        </member>
+        <member name="P:MvcWebRole.Fakes.StubWebRole.InstanceBehavior">
+            <summary>Gets or sets the instance behavior.</summary>
+        </member>
+        <member name="P:MvcWebRole.Fakes.StubWebRole.InstanceObserver">
+            <summary>Gets or sets the instance observer.</summary>
+        </member>
+    </members>
+</doc>
