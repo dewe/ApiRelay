@@ -6,6 +6,6 @@ namespace MvcWebRole.Controllers
 {
     public interface IHttpClient
     {
-        Task<HttpResponseMessage> GetAsync(Uri requestUri, HttpCompletionOption completionOption);
+        Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, HttpCompletionOption completionOption);
     }
 }

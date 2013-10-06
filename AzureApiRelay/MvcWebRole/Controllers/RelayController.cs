@@ -25,32 +25,21 @@ namespace MvcWebRole.Controllers
             _client = httpClient;
         }
 
-        public async Task<HttpResponseMessage> GetRelay(string path)
+        [HttpGet]
+        public async Task<HttpResponseMessage> RelayGet(string path)
         {
             var uri = new Uri(RelayServiceUri, (path == "<root>" ? "" : path));
-            using (var serviceResponse = await _client.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead))
+            var request = new HttpRequestMessage(HttpMethod.Get, uri);
+
+            using (var serviceResponse = await _client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead))
             {
                 return CreateResponse(serviceResponse);
             }
         }
 
-        //public async Task<HttpResponseMessage> PutRelay()
-        //{
-        //    // Get content (which hasn't been read yet) from incoming request.
-        //    HttpContent content = Request.Content;
-        //    Request.Content = null;
-
-        //    // Submit request to our service which we relay. 
-        //    using (HttpResponseMessage serviceResponse = await _client.PutAsync(RelayToUri, content))
-        //    {
-        //        // Return response
-        //        return CreateResponse(serviceResponse);
-        //    }
-        //}
-
         private HttpResponseMessage CreateResponse(HttpResponseMessage serviceResponse)
         {
-            HttpResponseMessage relayResponse = Request.CreateResponse(serviceResponse.StatusCode);
+            var relayResponse = Request.CreateResponse(serviceResponse.StatusCode);
             relayResponse.Content = serviceResponse.Content;
             serviceResponse.Content = null;
             return relayResponse;

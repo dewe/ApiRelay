@@ -1,16 +1,13 @@
-﻿using System.IO;
-using System.Text;
+﻿using FakeItEasy;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MvcWebRole.Controllers;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Hosting;
 using System.Web.Http.Routing;
-using FakeItEasy;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MvcWebRole.Controllers;
-using System;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace MvcWebRole.Tests.Controllers
 {
@@ -18,34 +15,53 @@ namespace MvcWebRole.Tests.Controllers
     public class RelayControllerTest
     {
         [TestMethod]
-        public void ShouldRelayGetStatus()
+        public void Should_relay_get_request()
         {
             var client = A.Fake<IHttpClient>();
-            SetupFakeClient(client);
 
             var controller = new RelayController(client);
-            SetupControllerForTest(controller);
+            var getRequest = new HttpRequestMessage(HttpMethod.Get, "http://localhost/");
+            SetupControllerForTest(controller, getRequest);
             
-            var response = controller.GetRelay("").Result;
+            var response = controller.RelayGet("/").Result;
 
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
         }
 
-        private void SetupFakeClient(IHttpClient client)
+        [TestMethod]
+        public void Should_forward_accept_header()
         {
-            var taskSource = new TaskCompletionSource<HttpResponseMessage>();
-            taskSource.SetResult(new HttpResponseMessage(HttpStatusCode.OK));
-            var completedTask = taskSource.Task;
+            var client = A.Fake<IHttpClient>();
+
+            var controller = new RelayController(client);
+            SetupControllerForTest(controller, new HttpRequestMessage());
+
+            var contentType = new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("text/x-test");
+            controller.Request.Headers.Accept.Add(contentType);
+
+            var response = controller.RelayGet("/").Result;
 
             A.CallTo(() => 
-                client.GetAsync(A<Uri>.Ignored, HttpCompletionOption.ResponseHeadersRead))
+                client.SendAsync(
+                    A<HttpRequestMessage>.That.Matches(r => r.Headers.Accept.Contains(contentType)),
+                    A<HttpCompletionOption>.Ignored))
+                .MustHaveHappened();
+        }
+
+        private void SetupFakeResponses(IHttpClient client, HttpResponseMessage response)
+        {
+            var taskSource = new TaskCompletionSource<HttpResponseMessage>();
+            taskSource.SetResult(response);
+            var completedTask = taskSource.Task;
+
+            A.CallTo(() =>
+                client.SendAsync(A<HttpRequestMessage>.Ignored, A<HttpCompletionOption>.Ignored))
                 .Returns(completedTask);
         }
 
-        private void SetupControllerForTest(RelayController controller)
+        private void SetupControllerForTest(RelayController controller, HttpRequestMessage request)
         {
             var config = new HttpConfiguration();
-            var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost/test/apirelay");
             var route = config.Routes.MapHttpRoute("DefaultApi", "test/{controller}");
             var routeData = new HttpRouteData(route, new HttpRouteValueDictionary {{"controller", "apirelay"}});
 

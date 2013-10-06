@@ -12,7 +12,7 @@ namespace MvcWebRole
             config.Routes.MapHttpRoute(
                 name: "Relay Default",
                 routeTemplate: "{*path}",
-                defaults: new { controller = "Relay", path = "<root>" }
+                defaults: new { controller = "Relay", path = "/" }
             );
 
             // To disable tracing in your application, please comment out or remove the following line of code

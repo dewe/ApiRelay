@@ -13,9 +13,9 @@ namespace MvcWebRole.Controllers
             _client = client;
         }
 
-        public Task<HttpResponseMessage> GetAsync(Uri requestUri, HttpCompletionOption completionOption)
+        public Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, HttpCompletionOption completionOption)
         {
-            return _client.GetAsync(requestUri, completionOption);
+            return _client.SendAsync(request, completionOption);
         }
     }
 }
