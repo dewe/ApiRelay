@@ -6,6 +6,8 @@
 - [x] Turn off buffering in ASP.Net
 - [ ] Add support for POST
 - [ ] Support request headers, response headers and content headers from RFC2616 5.3, 6.2, 7.1
+- [ ] Support Max-Forwards request header
+- [ ] Support Via request header
 - [ ] Configure ServicBaseUri
 - [ ] Error handling? At least logging
 - [ ] Add APM, like NewRelic

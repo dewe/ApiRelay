@@ -1,9 +1,9 @@
-﻿using System.Net.Http.Headers;
-using FakeItEasy;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using FakeItEasy;
 using MvcWebRole.Controllers;
+using NUnit.Framework;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Controllers;
@@ -12,35 +12,33 @@ using System.Web.Http.Routing;
 
 namespace MvcWebRole.Tests.Controllers
 {
-    [TestClass]
+    [TestFixture]
     public class RelayControllerTest
     {
         private IHttpClient _client;
         private RelayController _controller;
 
-        [TestInitialize]
+        [SetUp]
         public void Setup()
         {
             _client = A.Fake<IHttpClient>();
             _controller = new RelayController(_client);
+
+            SetupControllerForTest(_controller, new HttpRequestMessage());
         }
 
-        [TestMethod]
+        [Test]
         public void Should_relay_get_request()
         {
-            SetupControllerForTest(_controller, new HttpRequestMessage(HttpMethod.Get, "http://localhost/"));
-            
             var response = _controller.RelayGet("/").Result;
 
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
         }
 
-        [TestMethod]
+        [Test]
         public void Should_forward_accept_header()
         {
-            SetupControllerForTest(_controller, new HttpRequestMessage());
-
-            var contentType = new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("text/x-test");
+            var contentType = new MediaTypeWithQualityHeaderValue("text/x-test");
             _controller.Request.Headers.Accept.Add(contentType);
 
             var response = _controller.RelayGet("/").Result;
@@ -52,7 +50,33 @@ namespace MvcWebRole.Tests.Controllers
                 .MustHaveHappened();
         }
 
-        [TestMethod]
+        [TestCase("Accept", "text/html")]
+        [TestCase("Accept-Charset", "iso-8859-1")]
+        [TestCase("Accept-Encoding", "")]
+        [TestCase("Accept-Language", "en-us")]
+        [TestCase("Authorization", "credentials")]
+        [TestCase("Expect", "100-continue")]
+        [TestCase("From", "webmaster@example.com")]
+        [TestCase("Host", "www.example.com")]
+        [TestCase("If-Match", "qwerty")]
+        [TestCase("If-Modified-Since", "Sat, 29 Oct 1994 19:43:31 GMT")]
+        [TestCase("If-None-Match", "qwerty")]
+        [TestCase("If-Range", "qwerty")]
+        [TestCase("If-Unmodified-Since", "Sat, 29 Oct 1994 19:43:31 GMT")]
+        [TestCase("Range", "")]
+        [TestCase("Referer", "http://www.example.com")]
+        [TestCase("TE", "deflate")]
+        [TestCase("User-Agent", "dummy")]
+        public void Should_forward_rfc2616_request_headers(string name, string value)
+        {
+            _controller.Request.Headers.Add(name, value);
+
+            var response = _controller.RelayGet("/").Result;
+
+            ShouldHaveForwardedHeader(name);
+        }
+
+        [Test]
         public void Should_relay_basic_authentication()
         {
             var request = new HttpRequestMessage();
@@ -94,6 +118,20 @@ namespace MvcWebRole.Tests.Controllers
             controller.ControllerContext = new HttpControllerContext(config, routeData, request);
             controller.Request = request;
             controller.Request.Properties[HttpPropertyKeys.HttpConfigurationKey] = config;
+        }
+
+        private void ShouldHaveForwardedHeader(string name)
+        {
+            A.CallTo<Task<HttpResponseMessage>>(() =>
+                                                _client.SendAsync(
+                                                    A<HttpRequestMessage>.That.Matches(request => HasHeader(name, request)),
+                                                    A<HttpCompletionOption>.Ignored))
+             .MustHaveHappened();
+        }
+
+        private bool HasHeader(string name, HttpRequestMessage request)
+        {
+            return request.Headers.Contains(name);
         }
     }
 }
