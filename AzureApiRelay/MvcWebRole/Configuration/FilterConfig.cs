@@ -1,7 +1,6 @@
-﻿using System.Web;
 using System.Web.Mvc;
 
-namespace MvcWebRole
+namespace MvcWebRole.Configuration
 {
     public class FilterConfig
     {

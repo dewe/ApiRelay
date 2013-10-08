@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web.Http;
+using System.Web.Http.Hosting;
 
-namespace MvcWebRole
+namespace MvcWebRole.Configuration
 {
     public static class WebApiConfig
     {
@@ -18,6 +16,9 @@ namespace MvcWebRole
             // To disable tracing in your application, please comment out or remove the following line of code
             // For more information, refer to: http://www.asp.net/web-api
             config.EnableSystemDiagnosticsTracing();
+
+            // How to control buffering: http://www.strathweb.com/2012/09/dealing-with-large-files-in-asp-net-web-api/
+            config.Services.Replace(typeof(IHostBufferPolicySelector), new NoBufferPolicy());
         }
     }
 }

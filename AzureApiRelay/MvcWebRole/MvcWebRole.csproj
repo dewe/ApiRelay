@@ -138,8 +138,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\FilterConfig.cs" />
-    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Configuration\FilterConfig.cs" />
+    <Compile Include="Configuration\NoBufferPolicy.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Configuration\WebApiConfig.cs" />
     <Compile Include="Controllers\HttpClientWrapper.cs" />
     <Compile Include="Controllers\IHttpClient.cs" />
     <Compile Include="Controllers\RelayController.cs" />
