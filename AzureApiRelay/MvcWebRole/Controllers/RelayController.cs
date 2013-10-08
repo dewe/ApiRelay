@@ -30,25 +30,14 @@ namespace MvcWebRole.Controllers
         public async Task<HttpResponseMessage> RelayGet(string path)
         {
             var relayRequest = new HttpRequestMessage();
-            relayRequest.Method = Request.Method;
-            relayRequest.RequestUri = new Uri(ServiceBaseUri, path);
+            CopyRequestHeaders(relayRequest, Request);
 
-            TryCopyHeader("Accept", relayRequest.Headers, Request.Headers);
-            TryCopyHeader("Authorization", relayRequest.Headers, Request.Headers);
+            relayRequest.RequestUri = new Uri(ServiceBaseUri, path);
 
             using (var serviceResponse = await _client.SendAsync(relayRequest, HttpCompletionOption.ResponseHeadersRead))
             {
                 return CreateResponse(serviceResponse);
             }
-        }
-
-        private void TryCopyHeader(string name, HttpHeaders toHeaders, HttpHeaders fromHeaders)
-        {
-            if (!fromHeaders.Contains(name)) 
-                return;
-            
-            var values = fromHeaders.GetValues(name);
-            toHeaders.Add(name, values);
         }
 
         private HttpResponseMessage CreateResponse(HttpResponseMessage serviceResponse)
@@ -60,6 +49,26 @@ namespace MvcWebRole.Controllers
             relayResponse.Content = serviceResponse.Content;
             serviceResponse.Content = null;
             return relayResponse;
+        }
+
+        private void CopyRequestHeaders(HttpRequestMessage toRequest, HttpRequestMessage fromRequest)
+        {
+            var headers = toRequest.Headers;
+            foreach (var item in fromRequest.Headers)
+            {
+                headers.Add(item.Key, item.Value);
+            }
+
+            headers.Remove("Host");
+        }
+
+        private void TryCopyHeader(string name, HttpHeaders toHeaders, HttpHeaders fromHeaders)
+        {
+            if (!fromHeaders.Contains(name)) 
+                return;
+            
+            var values = fromHeaders.GetValues(name);
+            toHeaders.Add(name, values);
         }
     }
 }

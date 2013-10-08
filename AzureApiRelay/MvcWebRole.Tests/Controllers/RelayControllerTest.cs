@@ -43,7 +43,7 @@ namespace MvcWebRole.Tests.Controllers
 
             var response = _controller.RelayGet("/").Result;
 
-            A.CallTo(() => 
+            A.CallTo(() =>
                 _client.SendAsync(
                     A<HttpRequestMessage>.That.Matches(r => r.Headers.Accept.Contains(contentType)),
                     A<HttpCompletionOption>.Ignored))
@@ -52,18 +52,17 @@ namespace MvcWebRole.Tests.Controllers
 
         [TestCase("Accept", "text/html")]
         [TestCase("Accept-Charset", "iso-8859-1")]
-        [TestCase("Accept-Encoding", "")]
+        [TestCase("Accept-Encoding", "*")]
         [TestCase("Accept-Language", "en-us")]
         [TestCase("Authorization", "credentials")]
         [TestCase("Expect", "100-continue")]
         [TestCase("From", "webmaster@example.com")]
-        [TestCase("Host", "www.example.com")]
-        [TestCase("If-Match", "qwerty")]
+        [TestCase("If-Match", "\"qwerty\"")]
         [TestCase("If-Modified-Since", "Sat, 29 Oct 1994 19:43:31 GMT")]
-        [TestCase("If-None-Match", "qwerty")]
-        [TestCase("If-Range", "qwerty")]
+        [TestCase("If-None-Match", "\"qwerty\"")]
+        [TestCase("If-Range", "\"qwerty\"")]
         [TestCase("If-Unmodified-Since", "Sat, 29 Oct 1994 19:43:31 GMT")]
-        [TestCase("Range", "")]
+        [TestCase("Range", "bytes=4711-")]
         [TestCase("Referer", "http://www.example.com")]
         [TestCase("TE", "deflate")]
         [TestCase("User-Agent", "dummy")]
@@ -74,6 +73,16 @@ namespace MvcWebRole.Tests.Controllers
             var response = _controller.RelayGet("/").Result;
 
             ShouldHaveForwardedHeader(name);
+        }
+
+        [Test]
+        public void Should_not_forward_host_header()
+        {
+            _controller.Request.Headers.Host = "www.example.com";
+
+            var response = _controller.RelayGet("/").Result;
+
+            ShouldNotHaveForwardedHeader("Host");
         }
 
         [Test]
@@ -113,7 +122,7 @@ namespace MvcWebRole.Tests.Controllers
         {
             var config = new HttpConfiguration();
             var route = config.Routes.MapHttpRoute("DefaultApi", "test/{controller}");
-            var routeData = new HttpRouteData(route, new HttpRouteValueDictionary {{"controller", "apirelay"}});
+            var routeData = new HttpRouteData(route, new HttpRouteValueDictionary { { "controller", "apirelay" } });
 
             controller.ControllerContext = new HttpControllerContext(config, routeData, request);
             controller.Request = request;
@@ -123,10 +132,15 @@ namespace MvcWebRole.Tests.Controllers
         private void ShouldHaveForwardedHeader(string name)
         {
             A.CallTo<Task<HttpResponseMessage>>(() =>
-                                                _client.SendAsync(
-                                                    A<HttpRequestMessage>.That.Matches(request => HasHeader(name, request)),
-                                                    A<HttpCompletionOption>.Ignored))
-             .MustHaveHappened();
+                _client.SendAsync(A<HttpRequestMessage>.That.Matches(request => HasHeader(name, request)), A<HttpCompletionOption>.Ignored))
+                .MustHaveHappened();
+        }
+
+        private void ShouldNotHaveForwardedHeader(string name)
+        {
+            A.CallTo<Task<HttpResponseMessage>>(() => 
+                _client.SendAsync(A<HttpRequestMessage>.That.Matches(request => HasHeader(name, request)), A<HttpCompletionOption>.Ignored))
+                .MustNotHaveHappened();
         }
 
         private bool HasHeader(string name, HttpRequestMessage request)
