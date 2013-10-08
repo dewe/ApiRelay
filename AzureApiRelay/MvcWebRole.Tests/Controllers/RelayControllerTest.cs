@@ -1,4 +1,5 @@
-﻿using FakeItEasy;
+﻿using System.Net.Http.Headers;
+using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MvcWebRole.Controllers;
 using System.Net;
@@ -14,16 +15,22 @@ namespace MvcWebRole.Tests.Controllers
     [TestClass]
     public class RelayControllerTest
     {
+        private IHttpClient _client;
+        private RelayController _controller;
+
+        [TestInitialize]
+        public void Setup()
+        {
+            _client = A.Fake<IHttpClient>();
+            _controller = new RelayController(_client);
+        }
+
         [TestMethod]
         public void Should_relay_get_request()
         {
-            var client = A.Fake<IHttpClient>();
-
-            var controller = new RelayController(client);
-            var getRequest = new HttpRequestMessage(HttpMethod.Get, "http://localhost/");
-            SetupControllerForTest(controller, getRequest);
+            SetupControllerForTest(_controller, new HttpRequestMessage(HttpMethod.Get, "http://localhost/"));
             
-            var response = controller.RelayGet("/").Result;
+            var response = _controller.RelayGet("/").Result;
 
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
         }
@@ -31,25 +38,44 @@ namespace MvcWebRole.Tests.Controllers
         [TestMethod]
         public void Should_forward_accept_header()
         {
-            var client = A.Fake<IHttpClient>();
-
-            var controller = new RelayController(client);
-            SetupControllerForTest(controller, new HttpRequestMessage());
+            SetupControllerForTest(_controller, new HttpRequestMessage());
 
             var contentType = new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("text/x-test");
-            controller.Request.Headers.Accept.Add(contentType);
+            _controller.Request.Headers.Accept.Add(contentType);
 
-            var response = controller.RelayGet("/").Result;
+            var response = _controller.RelayGet("/").Result;
 
             A.CallTo(() => 
-                client.SendAsync(
+                _client.SendAsync(
                     A<HttpRequestMessage>.That.Matches(r => r.Headers.Accept.Contains(contentType)),
                     A<HttpCompletionOption>.Ignored))
                 .MustHaveHappened();
         }
 
-        private void SetupFakeResponses(IHttpClient client, HttpResponseMessage response)
+        [TestMethod]
+        public void Should_relay_basic_authentication()
         {
+            var request = new HttpRequestMessage();
+            request.Headers.Authorization = new AuthenticationHeaderValue("Basic", "dummyvalue");
+            SetupControllerForTest(_controller, request);
+            SetupFakeResponses(_client);
+
+            var response = _controller.RelayGet("/").Result;
+
+            A.CallTo(() =>
+                _client.SendAsync(
+                    A<HttpRequestMessage>.That.Matches(r => r.Headers.Contains("Authorization")),
+                    A<HttpCompletionOption>.Ignored))
+                .MustHaveHappened();
+
+            Assert.IsTrue(response.Headers.WwwAuthenticate.Count > 0);
+        }
+
+        private void SetupFakeResponses(IHttpClient client)
+        {
+            var response = new HttpResponseMessage(HttpStatusCode.OK);
+            response.Headers.WwwAuthenticate.Add(new AuthenticationHeaderValue("Basic", "realm=\"Dummy\""));
+
             var taskSource = new TaskCompletionSource<HttpResponseMessage>();
             taskSource.SetResult(response);
             var completedTask = taskSource.Task;

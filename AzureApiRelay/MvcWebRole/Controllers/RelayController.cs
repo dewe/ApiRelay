@@ -12,7 +12,7 @@ namespace MvcWebRole.Controllers
 {
     public class RelayController : ApiController
     {
-        private static readonly Uri ServiceBaseUri = new Uri("http://www.sunet.se");
+        private static readonly Uri ServiceBaseUri = new Uri("https://galaxy");
         private readonly IHttpClient _client;
 
         public RelayController()
@@ -29,29 +29,34 @@ namespace MvcWebRole.Controllers
         [HttpGet]
         public async Task<HttpResponseMessage> RelayGet(string path)
         {
-            var request = new HttpRequestMessage();
-            request.Method = Request.Method;
-            request.RequestUri = new Uri(ServiceBaseUri, path);
-            TryCopyHeader(request, "Accept");
+            var relayRequest = new HttpRequestMessage();
+            relayRequest.Method = Request.Method;
+            relayRequest.RequestUri = new Uri(ServiceBaseUri, path);
 
-            using (var serviceResponse = await _client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead))
+            TryCopyHeader("Accept", relayRequest.Headers, Request.Headers);
+            TryCopyHeader("Authorization", relayRequest.Headers, Request.Headers);
+
+            using (var serviceResponse = await _client.SendAsync(relayRequest, HttpCompletionOption.ResponseHeadersRead))
             {
                 return CreateResponse(serviceResponse);
             }
         }
 
-        private void TryCopyHeader(HttpRequestMessage request, string name)
+        private void TryCopyHeader(string name, HttpHeaders toHeaders, HttpHeaders fromHeaders)
         {
-            if (Request.Headers.Contains(name))
-            {
-                IEnumerable<string> values = Request.Headers.GetValues(name);
-                request.Headers.Add(name, values);
-            }
+            if (!fromHeaders.Contains(name)) 
+                return;
+            
+            var values = fromHeaders.GetValues(name);
+            toHeaders.Add(name, values);
         }
 
         private HttpResponseMessage CreateResponse(HttpResponseMessage serviceResponse)
         {
             var relayResponse = Request.CreateResponse(serviceResponse.StatusCode);
+
+            TryCopyHeader("WWW-Authenticate", relayResponse.Headers, serviceResponse.Headers);
+
             relayResponse.Content = serviceResponse.Content;
             serviceResponse.Content = null;
             return relayResponse;
