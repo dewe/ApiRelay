@@ -1,4 +1,5 @@
-﻿using FakeItEasy;
+﻿using System.Collections.Generic;
+using FakeItEasy;
 using MvcWebRole.Controllers;
 using NUnit.Framework;
 using System.Net;
@@ -36,18 +37,15 @@ namespace MvcWebRole.Tests.Controllers
         }
 
         [Test]
-        public void Should_forward_accept_header()
+        public void Should_relay_post_request()
         {
-            var contentType = new MediaTypeWithQualityHeaderValue("text/x-test");
-            _controller.Request.Headers.Accept.Add(contentType);
+            _controller.Request.Method = HttpMethod.Post;
+            _controller.Request.Content = new FormUrlEncodedContent(new List<KeyValuePair<string, string>> { new KeyValuePair<string, string>("name", "dummy") });
 
-            var response = _controller.RelayGet("/").Result;
+            var response = _controller.RelayPost("/").Result;
 
-            A.CallTo(() =>
-                _client.SendAsync(
-                    A<HttpRequestMessage>.That.Matches(r => r.Headers.Accept.Contains(contentType)),
-                    A<HttpCompletionOption>.Ignored))
-                .MustHaveHappened();
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            ShouldForwardPostRequest();
         }
 
         [TestCase("Accept", "text/html")]
@@ -129,6 +127,21 @@ namespace MvcWebRole.Tests.Controllers
             controller.Request.Properties[HttpPropertyKeys.HttpConfigurationKey] = config;
         }
 
+        private void ShouldForwardPostRequest()
+        {
+            A.CallTo<Task<HttpResponseMessage>>(() =>
+                _client.SendAsync(
+                    A<HttpRequestMessage>.That.Matches(request => request.Method == HttpMethod.Post),
+                    A<HttpCompletionOption>.Ignored))
+                .MustHaveHappened();
+
+            A.CallTo<Task<HttpResponseMessage>>(() =>
+                _client.SendAsync(
+                    A<HttpRequestMessage>.That.Matches(request => request.Content.IsFormData()),
+                    A<HttpCompletionOption>.Ignored))
+                .MustHaveHappened();
+        }
+        
         private void ShouldHaveForwardedHeader(string name)
         {
             A.CallTo<Task<HttpResponseMessage>>(() =>
@@ -138,7 +151,7 @@ namespace MvcWebRole.Tests.Controllers
 
         private void ShouldNotHaveForwardedHeader(string name)
         {
-            A.CallTo<Task<HttpResponseMessage>>(() => 
+            A.CallTo<Task<HttpResponseMessage>>(() =>
                 _client.SendAsync(A<HttpRequestMessage>.That.Matches(request => HasHeader(name, request)), A<HttpCompletionOption>.Ignored))
                 .MustNotHaveHappened();
         }

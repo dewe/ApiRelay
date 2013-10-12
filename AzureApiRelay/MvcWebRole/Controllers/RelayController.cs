@@ -31,7 +31,6 @@ namespace MvcWebRole.Controllers
         {
             var relayRequest = new HttpRequestMessage();
             CopyRequestHeaders(relayRequest, Request);
-
             relayRequest.RequestUri = new Uri(ServiceBaseUri, path);
 
             using (var serviceResponse = await _client.SendAsync(relayRequest, HttpCompletionOption.ResponseHeadersRead))
@@ -40,16 +39,20 @@ namespace MvcWebRole.Controllers
             }
         }
 
-        private HttpResponseMessage CreateResponse(HttpResponseMessage serviceResponse)
+        [HttpPost]
+        public async Task<HttpResponseMessage> RelayPost(string path)
         {
-            var relayResponse = Request.CreateResponse(serviceResponse.StatusCode);
+            var relayRequest = new HttpRequestMessage(HttpMethod.Post, new Uri(ServiceBaseUri, path));
+            CopyRequestHeaders(relayRequest, Request);
+            relayRequest.Content = Request.Content;
+            Request.Content = null;
 
-            TryCopyHeader("WWW-Authenticate", relayResponse.Headers, serviceResponse.Headers);
-
-            relayResponse.Content = serviceResponse.Content;
-            serviceResponse.Content = null;
-            return relayResponse;
+            using (var serviceResponse = await _client.SendAsync(relayRequest, HttpCompletionOption.ResponseHeadersRead))
+            {
+                return CreateResponse(serviceResponse);
+            }
         }
+
 
         private void CopyRequestHeaders(HttpRequestMessage toRequest, HttpRequestMessage fromRequest)
         {
@@ -69,6 +72,17 @@ namespace MvcWebRole.Controllers
             
             var values = fromHeaders.GetValues(name);
             toHeaders.Add(name, values);
+        }
+
+        private HttpResponseMessage CreateResponse(HttpResponseMessage serviceResponse)
+        {
+            var relayResponse = Request.CreateResponse(serviceResponse.StatusCode);
+
+            TryCopyHeader("WWW-Authenticate", relayResponse.Headers, serviceResponse.Headers);
+
+            relayResponse.Content = serviceResponse.Content;
+            serviceResponse.Content = null;
+            return relayResponse;
         }
     }
 }
